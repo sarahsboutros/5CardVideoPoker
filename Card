@@ -1,0 +1,71 @@
+package textBasedVideoPoker;
+//import java.*;
+
+
+// design the template for 1 card.
+public class Card {
+	
+	private static String[] suit = {"H","S","D","C"};
+	private static String[] faceAndAce = {"J","Q","K","A"};
+	
+	public enum Suit{
+		HEART, DIAMOND, CLUBS, SPADES
+	}
+	public enum AceAndFace{
+		J,Q,K,A
+	}
+	private int cardSuit;
+	private int cardValue;
+	
+	public Card(int suit, int value){
+		cardSuit  = suit;
+		cardValue = value;
+	}
+	public Card(){
+		cardSuit = 0;
+		cardValue = 0;
+	}	
+	public int getCardSuit(){
+		return cardSuit;
+	}
+	public int getCardValue(){
+		return cardValue;
+	}	
+	
+	private String displayCard(){
+		String cardS = " ";
+		String cardFace = " ";		
+		
+		if(getCardValue() == 11) {
+			cardFace = "J";
+		} if(getCardValue() == 12) {
+			cardFace = "Q";
+		} if(getCardValue() == 13) {
+			cardFace = "K";
+		} if(getCardValue() == 1) {
+			cardFace = "A";
+		} else {
+			cardFace = String.valueOf(getCardValue());
+		}
+		
+		if(getCardSuit() == 1) {
+			cardS = " of Spades";
+		} else if(getCardSuit() == 2) {
+			cardS = " of Diamonds";
+		} else if(getCardSuit() == 3) {
+			cardS = " of Clubs";
+		} else {
+			cardS = " of Hearts";
+		}		
+		
+		String cardDisplay = cardFace + cardS;
+		
+		return cardDisplay;
+	}
+	public String toString(){		
+		String str = displayCard();
+		//String str = "Card Value : " + getCardValue()+
+			//		 " Card Suit  : " +getCardSuit();
+		return str;
+	}
+}
