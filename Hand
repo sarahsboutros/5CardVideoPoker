@@ -1,0 +1,135 @@
+package textBasedVideoPoker;
+
+import java.util.*;
+
+public class Hand {
+
+	private static Deck newDeck = new Deck();
+	private static Queue<Card> finalDeck = new LinkedList<Card>();
+	//use an array to hold the player's hand.
+	private static Card[] playerHand;
+	private static int TOTALCARDS = 5;
+	private static String drop; 
+	
+	private static GamePlay gameP;
+	
+	// this function will be used to create 
+	// the player's hand.
+	public Hand(){
+		//this will be used to create a deck.
+		newDeck = new Deck();		
+		finalDeck = new LinkedList<Card>();
+		playerHand = new Card[5];
+		drop = new String();
+		gameP = new GamePlay();
+	}
+	public void createPlayerHand(){
+		//firstly shuffle the deck
+		newDeck.shuffleDeck();
+		//this gets the shuffled deck that was converted to a Queue.
+		finalDeck = newDeck.getDeck();
+		//pop off five cards from the deck
+		for(int i = 0; i < 5;i++){
+			playerHand[i] = finalDeck.poll();
+		}
+		//display the player's hand
+		for(int i = 0; i < 5;i++){
+			System.out.println("Card Number :" +i+ "  "+ playerHand[i]);
+		}			
+			
+	}
+	// this function will allow the user to choose up
+	// to 4 cards to drop.
+	public void dropPlayerCards(){
+	Scanner keyboard = new Scanner(System.in);
+	drop = new String();	
+
+		System.out.println("Select the position of the card(s you wish");
+		System.out.println("to drop from the given hand");
+		drop = keyboard.nextLine();		
+		// loop through the array and get the cards that 
+		// the user wants to drop. the same amount of cards that
+		// are dropped must be given back.
+		// this will replace all the spaces in the string.
+		drop = drop.replaceAll("\\s+","");
+		
+		// once the spaces have been taken out, check to 
+		System.out.println("New drop: "+ drop);
+		for(int i = 0; i < ( drop.length()); i++){
+			// used to hold the card before sending it back into the 
+			// queue.			
+			Card dummy = new Card();
+			// make sure to get rid of any spaces in between the
+			// numbers.				
+			int parsedValue = Integer.parseInt(drop.substring( i, i + 1));	
+			dummy = playerHand[parsedValue];
+			System.out.println("Card that was tossed from hand :" + dummy);
+			// now that a card has been tossed from the hand by the user
+			// the parsedValue is pointing to the spot in the array where the
+			// card was taken from. We can proceed to pop from the 
+			// queue and store it into the position in the array that was just emptied
+			// and overwrite what is in there.
+			playerHand[parsedValue] = finalDeck.poll();
+			}
+			// now that we pulled we must add to the deck the value that we took
+			// from the array that way the deck of 52 cards is still complete.			
+		
+		
+		// display the new hand that was created now that the 
+		// user has dropped and been given new cards.
+		System.out.println("*************************************");
+		System.out.println("*    Giving Player his new cards    *");
+		System.out.println("*************************************");
+		
+		for(Card c: playerHand){
+			System.out.println(c);
+		}
+		
+		// this prints the values that are in the hand
+		gameP.populateArrayL(playerHand);
+		
+		// the value that gets returned here could be used in an if case
+		// to determine how much money a player wins etc.
+		int number = gameP.startComparison();
+		
+		if(number == 1){			
+			System.out.println("You made a Pair.");
+		} else if (number == 2){
+			System.out.println("You made a Set.");
+		} else if (number == 3){
+			System.out.println("You made a four of a kind.");
+		} else if (number == 4){
+			System.out.println("You made two pairs.");
+		} else if (number == 5){
+			System.out.println("You made a full house.");
+		} else if (number == 6){
+			
+		} else if (number == 7){
+			
+		}
+		
+		// the following functions will determine the value of the
+		// players hand and what he/she has.
+		
+		//gameP.isFlush();
+		
+		//System.out.println("Printing out the cards that are in the gameP arraylist \n"+ gameP );
+			
+	}	
+	// use this function to ask the user whether he/she wants
+	// to drop the selected cards
+	
+	
+	public String askUser(){
+		
+		System.out.println("Do you want to drop the following cards? Y/N");
+		return " ";
+	}
+	// function that will be used to determine
+	// whether a player won or lost.	
+	public void handWinLose(){
+		
+	}
+
+
+}
