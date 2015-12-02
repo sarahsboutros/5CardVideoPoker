@@ -1,0 +1,182 @@
+package textBasedVideoPoker;
+// this class will be used to compare the hand from the hand
+// class to determine the state of the hand.
+// It will be called inside the hand class.
+// This class should be made private that way it is only
+// called within the Hand class.
+
+import java.util.*;
+public class GamePlay{
+	// the hand is a Card array
+	private static Card[] userHand;
+	// comparison class that will be used to compare
+	// the values within the Card array from the 
+	// hand class.
+	private  ArrayList<Comparison> compareHand; 
+	
+	private class Comparison{
+		private int cardValue;		
+		private int cardCount;
+		private int cardSuit;
+		
+		private Comparison(){
+			cardValue = 0;
+			cardCount  = 0;
+			cardSuit = 0;
+		}
+		private Comparison(int card,int suit, int count) {
+			cardValue = card;
+			cardSuit   = suit;
+			cardCount  = count;			
+		}
+		private void setCardValue (int card) {
+			cardValue = card;
+		}
+		private void setCardCount (int count) {
+			cardCount = count;
+		}
+		private void setCardSuit (int suit){
+			cardSuit = suit;
+		}
+		private int getCardValue(){
+			return cardValue;
+		}
+		private int getCardCount(){
+			return cardCount;
+		}
+		private int getCardSuit(){
+			return cardSuit;
+		}
+		public String toString(){
+			String str = "Card: " + getCardValue() + "Suit: " + getCardSuit()+ " Count "+ getCardCount();
+			return str;
+		}		
+	}
+	
+	public GamePlay(){
+		userHand = new Card[5];
+		compareHand = new ArrayList<Comparison>();
+	}
+	public GamePlay(Card[] card, ArrayList<Comparison> compare){
+		userHand = card;
+		compareHand = compare;
+	}
+	// if we make this return an integer based on the
+	// type of hand, then we can assign a value to the 
+	// number when we check to see what a person wins 
+	public int startComparison(){	
+		int comparisonNumber = 0;
+		if(compareHand.size() > 0) {
+			if(compareHand.size() == 1 ){
+				int sum = compareHand.get(0).getCardCount();
+				if (sum == 2)
+				comparisonNumber = 1;// this means there's a pair.
+				else if (sum == 3)
+					comparisonNumber = 2;// this means there's a set(3 of a kind).
+				else 
+					comparisonNumber =3;//this means there's a four of a kind
+			} 
+			if(compareHand.size() == 2 ){
+				int sum = compareHand.get(0).getCardCount()
+						 + compareHand.get(1).getCardCount(); 
+				if(sum == 4){
+					comparisonNumber = 4; // this number is to be used for two pairs
+				} else {
+					comparisonNumber = 5;// this is used for a full house.
+				}		
+			}
+		} else {
+			int count = 0;
+			if(isStraight()){
+				count++;
+			}
+			if(isFlush()){
+				count++;
+			}			
+			System.out.println("There's a flush, straight,etc");
+		}
+		return comparisonNumber;
+	}
+	// function used to determine if the 
+	// user made a pair, two pair, set, full house,
+	// poker
+	public boolean isPairFullPoker(){		
+		
+		// this will take the user card array from
+		// the Hand class and then it will be used to 
+		// determine the state of the hand.		
+		return false;
+	}	
+	// function used to determine if the user made a 
+	// straight
+	// the A card value is 1.
+	public boolean isStraight(){
+		int sum = 0;
+		// create a loop to find the highest card value.
+		for(int i = 0; i < compareHand.size();i++){
+			int k = compareHand.get(i).getCardCount();
+			
+		}
+		for(int i = 0; i < compareHand.size();i++){
+			sum+= compareHand.get(i).getCardCount();
+		}
+		if(sum == 10) {
+			return true;
+		} else {
+			return false;
+		}
+	}	
+	
+	public boolean isFlush(){
+		// get the suit of the first card in the arraylist.
+		// compare the suit to the rest of the cards.
+		// it's a flush if they're all equal.
+		int k = compareHand.get(0).cardSuit;
+		boolean suitFlag = true;
+		for(int i = 1; i < compareHand.size();i++){
+			if( k != compareHand.get(i).cardSuit){
+				suitFlag = false;
+			}			
+		}		
+		return suitFlag;
+	}	
+	
+	public ArrayList<Comparison> populateArrayL(Card[] card){		
+		
+		for(int i =0 ;i < card.length; i++){
+			int counter = 1;
+			int k = card[i].getCardValue();
+			int suit = card[i].getCardSuit();
+			boolean inArray = false;
+				for(int j = 0; j<compareHand.size();j++){
+					if( k == compareHand.get(j).getCardValue()) {
+						inArray = true;
+					}
+				}
+				if( inArray == false ){
+					for(int index = i + 1; index<card.length; index++){
+						if(k == card[index].getCardValue()){
+							counter++;
+						}
+					}
+					if(counter > 1){
+						compareHand.add(new Comparison(k,suit,counter));
+					}
+				}
+		}				
+		System.out.println("Printing out the numbers that are in the arraylist");		
+		for(int i = 0; i < compareHand.size();i++){
+			System.out.println("Card : "+ compareHand.get(i).cardValue + 
+							   " Count : "+ compareHand.get(i).cardCount);			
+		}
+		return compareHand;		
+	}
+	public String toString(){
+		
+		String str = "";
+		for(int i = 0 ; i < compareHand.size() ; i++){
+			str += compareHand.get(i);
+		}
+		return str;
+	}
+}
