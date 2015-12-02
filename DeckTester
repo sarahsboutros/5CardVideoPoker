@@ -1,0 +1,19 @@
+package textBasedVideoPoker;
+
+import java.util.*;
+public class DeckTester {
+
+	public static void main(String[] args) {
+		//Scanner keyboard = new Scanner(System.in);		
+		//System.out.println("Do you want to play a game of Video Poker?");
+		//String answer = keyboard.next();
+		// these are required to play the game.
+			
+			Hand newHand = new Hand();
+			newHand.createPlayerHand();
+			newHand.dropPlayerCards();
+			
+			
+		
+	}
+}
